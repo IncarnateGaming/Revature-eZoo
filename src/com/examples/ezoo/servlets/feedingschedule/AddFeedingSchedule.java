@@ -1,4 +1,4 @@
-package com.examples.ezoo.servlets;
+package com.examples.ezoo.servlets.feedingschedule;
 
 import java.io.IOException;
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -24,7 +24,11 @@ public class AddFeedingSchedule extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("addFeedingSchedule.jsp").forward(request, response);
+		FeedingScheduleDAO daoFS = DAOUtilities.getFeedingScheduleDao();
+		Integer newId = daoFS.getHighestId() + 1;
+		request.getSession().setAttribute("newId", newId);
+
+		request.getRequestDispatcher("sections/feedingSchedules/addFeedingSchedule.jsp").forward(request, response);
 	}
 	
 	@Override
@@ -63,7 +67,7 @@ public class AddFeedingSchedule extends HttpServlet {
 			request.getSession().setAttribute("message", "Id of " + fs.getScheduleID() + " is already in use");
 			request.getSession().setAttribute("messageClass", "alert-danger");
 			
-			request.getRequestDispatcher("addFeedingSchedule.jsp").forward(request, response);
+			request.getRequestDispatcher("sections/feedingSchedules/addFeedingSchedule.jsp").forward(request, response);
 			
 		}catch (Exception e){
 			e.printStackTrace();
@@ -72,7 +76,7 @@ public class AddFeedingSchedule extends HttpServlet {
 			request.getSession().setAttribute("message", "There was a problem creating the feeding schedule at this time");
 			request.getSession().setAttribute("messageClass", "alert-danger");
 			
-			request.getRequestDispatcher("addFeedingSchedule.jsp").forward(request, response);
+			request.getRequestDispatcher("sections/feedingSchedules/addFeedingSchedule.jsp").forward(request, response);
 
 		}
 	}

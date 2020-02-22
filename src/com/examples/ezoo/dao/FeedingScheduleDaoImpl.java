@@ -92,6 +92,12 @@ public class FeedingScheduleDaoImpl implements FeedingScheduleDAO {
 
 	@Override
 	public void deleteFeedingSchedule(FeedingSchedule fs) throws Exception {
+		deleteFeedingScheduleMechanics(fs.getScheduleID());
+	}
+	public void deleteFeedingSchedule(Integer scheduleId) throws Exception {
+		deleteFeedingScheduleMechanics(scheduleId);
+	}
+	private static void deleteFeedingScheduleMechanics(Integer scheduleId) throws Exception{
 		Connection connection = null;
 		PreparedStatement stmt1 = null;
 		PreparedStatement stmt2 = null;
@@ -103,12 +109,12 @@ public class FeedingScheduleDaoImpl implements FeedingScheduleDAO {
 			//Set current Animal references to the not fed schedule
 			String sql1 = "UPDATE ANIMALS SET feeding_schedule="+ FeedingSchedule.getNotFedId() + " WHERE feeding_schedule=?";
 			stmt1 = connection.prepareStatement(sql1);
-			stmt1.setInt(1, fs.getScheduleID());
+			stmt1.setInt(1, scheduleId);
 			
 			//Delete the schedule
 			String sql2 = "DELETE FROM FEEDING_SCHEDULES WHERE schedule_id=?";
 			stmt2 = connection.prepareStatement(sql2);
-			stmt2.setInt(1, fs.getScheduleID());
+			stmt2.setInt(1, scheduleId);
 
 			//run statement
 			stmt1.executeUpdate();
@@ -129,7 +135,7 @@ public class FeedingScheduleDaoImpl implements FeedingScheduleDAO {
 		}
 
 		if (success2 == 0) {
-			throw new Exception("Delete feeding schedule failed: " + fs);
+			throw new Exception("Delete feeding schedule failed: " + scheduleId);
 		}
 	}
 
@@ -240,6 +246,15 @@ public class FeedingScheduleDaoImpl implements FeedingScheduleDAO {
 
 	@Override
 	public void assignFeedingSchedule(Animal animal, FeedingSchedule fs) throws Exception{
+		assignFeedingScheduleMechanics(animal,fs);
+	}
+	public void assignFeedingSchedule(Long animalId, Integer feedingScheduleId) throws Exception{
+		FeedingSchedule fs = getFeedingSchedule(feedingScheduleId);
+		AnimalDAO daoAn = DAOUtilities.getAnimalDao();
+		Animal animal = daoAn.getAnimalById(animalId);
+		assignFeedingScheduleMechanics(animal,fs);
+	}
+	public void assignFeedingScheduleMechanics(Animal animal, FeedingSchedule fs) throws Exception{
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		int success = 0;
@@ -307,6 +322,43 @@ public class FeedingScheduleDaoImpl implements FeedingScheduleDAO {
 			// then update didn't occur, throw an exception
 			throw new Exception("Removed feeding schedule from: "+ animal.getName() + " " + animal);
 		}
+	}
+
+	@Override
+	public Integer getHighestId() {
+		Integer result = 0;
+		Connection connection = null;
+		Statement stmt = null;
+
+		try {
+			connection = DAOUtilities.getConnection();
+
+			stmt = connection.createStatement();
+
+			String sql = "SELECT MAX(schedule_ID) FROM FEEDING_SCHEDULES";
+
+			ResultSet rs = stmt.executeQuery(sql);
+
+			while (rs.next()) {
+				result = rs.getInt("max");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stmt != null) {
+					stmt.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return result;
 	}
 
 

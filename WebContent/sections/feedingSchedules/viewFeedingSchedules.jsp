@@ -1,5 +1,5 @@
 	<!-- Header -->
-	<jsp:include page="header.jsp" />
+	<jsp:include page="../../header.jsp" />
 	
 	<!-- JSTL includes -->
 	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -26,22 +26,28 @@
 			<thead>
 				<tr>
 					<th class="text-center">Edit</th>
-					<th class="text-center">Schedule ID</th>
+					<!-- <th class="text-center">Schedule ID</th> (best practice is to delete not comment out lines like this
+					however I wanted to show that I know how to add this even if 90% of customers would not want it) -->
 					<th class="text-center">Feeding Time</th>
 					<th class="text-center">Recurrence</th>
 					<th class="text-center">Food</th>
 					<th class="text-center">Notes</th>
+					<th class="text-center">Assigned Animals</th>
+					<th class="text-center">Delete</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach var="feedingSchedule" items="${feedingSchedules}">
 					<tr>
 						<td><a href="/eZoo/editFeedingSchedule?feedingScheduleId=${feedingSchedule.scheduleID}"><button class="btn-primary">Edit</button></a></td>
-						<td><c:out value="${feedingSchedule.scheduleID}" /></td>
+						<!-- <td><c:out value="${feedingSchedule.scheduleID}" /></td> (best practice is to delete not comment out lines like this
+					however I wanted to show that I know how to add this even if 90% of customers would not want it) -->
 						<td><c:out value="${feedingSchedule.feedingTime}" /></td>
 						<td><c:out value="${feedingSchedule.recurrence}" /></td>
 						<td><c:out value="${feedingSchedule.food}" /></td>
 						<td><c:out value="${feedingSchedule.notes}" /></td>
+						<td><c:out value="${feedingSchedule.animalLinks}" escapeXml="false"/></td>
+						<td><button class="btn-danger delete-button" data-label="${feedingSchedule.feedingTime}, ${feedingSchedule.recurrence}, ${feedingSchedule.food}" data-delete="/eZoo/deleteFeedingSchedule?feedingScheduleId=${feedingSchedule.scheduleID}">Delete</button></td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -51,4 +57,5 @@
 	</header>
 
 	<!-- Footer -->
-	<jsp:include page="footer.jsp" />
+    <script src="resources/scripts/deleteButton.js"></script>
+	<jsp:include page="../../footer.jsp" />

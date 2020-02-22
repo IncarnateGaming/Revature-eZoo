@@ -1,4 +1,4 @@
-package com.examples.ezoo.servlets;
+package com.examples.ezoo.servlets.animal;
 
 import java.io.IOException;
 import java.util.List;
@@ -45,7 +45,7 @@ public class AnimalCareServlet extends HttpServlet {
 		request.getSession().setAttribute("longestNamedAnimal", longest);
 		
 		
-		request.getRequestDispatcher("animalCareHome.jsp").forward(request, response);
+		request.getRequestDispatcher("sections/animals/animalCareHome.jsp").forward(request, response);
 	}
 
 

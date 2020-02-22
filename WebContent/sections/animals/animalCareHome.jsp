@@ -1,5 +1,5 @@
 	<!-- Header -->
-	<jsp:include page="header.jsp" />
+	<jsp:include page="../../header.jsp" />
 	
 	<!-- JSTL includes -->
 	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -25,6 +25,7 @@
 		<table class="table table-striped table-hover table-responsive ezoo-datatable">
 			<thead>
 				<tr>
+					<th class="text-center">Edit</th>
 					<th class="text-center">Name</th>
 					<th class="text-center">Kingdom</th>
 					<th class="text-center">Phylum</th>
@@ -37,11 +38,13 @@
 					<th class="text-center">Weight(lbs)</th>
 					<th class="text-center">Type</th>
 					<th class="text-center">Health Status</th>
+					<th class="text-center">Delete</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach var="animal" items="${animals}">
 					<tr>
+						<td><a href="/eZoo/editAnimal?animalid=${animal.animalID}"><button class="btn-primary">Edit</button></a></td>
 						<td><c:out value="${animal.name}" /></td>
 						
 						<td><c:out value="${animal.taxKingdom}" /></td>
@@ -57,6 +60,7 @@
 						
 						<td><c:out value="${animal.type}" /></td>
 						<td><c:out value="${animal.healthStatus}" /></td>
+						<td><button class="btn-danger delete-button" data-label="${animal.name}" data-delete="/eZoo/deleteAnimal?animalid=${animal.animalID}">Delete</button></td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -88,4 +92,5 @@
 	</section>
 
 	<!-- Footer -->
-	<jsp:include page="footer.jsp" />
+    <script src="resources/scripts/deleteButton.js"></script>
+	<jsp:include page="../../footer.jsp" />

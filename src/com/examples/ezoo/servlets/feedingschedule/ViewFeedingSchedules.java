@@ -1,4 +1,4 @@
-package com.examples.ezoo.servlets;
+package com.examples.ezoo.servlets.feedingschedule;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,7 +14,7 @@ import com.examples.ezoo.dao.FeedingScheduleDAO;
 import com.examples.ezoo.model.FeedingSchedule;
 
 /**
- * Servlet implementation class AddFeedingSchedule
+ * Servlet implementation class ViewFeedingSchedule
  */
 @WebServlet("/feedingSchedules")
 public class ViewFeedingSchedules extends HttpServlet {
@@ -24,7 +24,7 @@ public class ViewFeedingSchedules extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// Grab a list of Animals from the Database
+		// Grab a list of Feeding Schedules from the Database
 		FeedingScheduleDAO dao = DAOUtilities.getFeedingScheduleDao();
 		List<FeedingSchedule> feedingSchedules = dao.getFeedingSchedules();
 
@@ -32,7 +32,7 @@ public class ViewFeedingSchedules extends HttpServlet {
 		request.getSession().setAttribute("feedingSchedules", feedingSchedules);
 		
 		
-		request.getRequestDispatcher("viewFeedingSchedules.jsp").forward(request, response);
+		request.getRequestDispatcher("sections/feedingSchedules/viewFeedingSchedules.jsp").forward(request, response);
 	}
 	
 

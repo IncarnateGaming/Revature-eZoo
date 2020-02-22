@@ -2,6 +2,10 @@ package com.examples.ezoo.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+
+import com.examples.ezoo.dao.AnimalDAO;
+import com.examples.ezoo.dao.DAOUtilities;
 
 public class FeedingSchedule {
 	/*
@@ -13,6 +17,13 @@ public class FeedingSchedule {
 	private String recurrence;
 	private String food;
 	private String notes;
+/**
+TODO if the website gets heavy traffic it will be more efficient to store the animal
+name lists and links within the database and only regenerate them when either the animal
+or the feeding schedule is edited.
+ */
+//	private String animalNames = "";
+//	private String animalLinks = "";
 	/*
 	 * Constructors
 	 */
@@ -80,6 +91,38 @@ public class FeedingSchedule {
 	public FeedingSchedule setNotes(String notes) {
 		this.notes = notes;
 		return this;
+	}
+	public String getAnimalNames() {
+		AnimalDAO daoAn = DAOUtilities.getAnimalDao();
+		List<Animal> animals = daoAn.getAllAnimals(this);
+		Integer animalSize = animals.size();
+		StringBuilder sb = new StringBuilder();
+		if(1 <= animalSize) {
+			sb.append(animals.get(0).getName());
+			for(Integer x=1; x<animalSize; x++) {
+				sb.append(", "+animals.get(x).getName());
+			}
+		}else {
+			sb.append("No Animals Applied");
+		}
+		String result = sb.toString();
+		return result;
+	}
+	public String getAnimalLinks() {
+		AnimalDAO daoAn = DAOUtilities.getAnimalDao();
+		List<Animal> animals = daoAn.getAllAnimals(this);
+		Integer animalSize = animals.size();
+		StringBuilder sb = new StringBuilder();
+		if(1 <= animalSize) {
+			sb.append("<a href=\"/eZoo/editAnimal?animalid="+ animals.get(0).getAnimalID() +"\">" + animals.get(0).getName() + "</a>");
+			for(Integer x=1; x<animalSize; x++) {
+				sb.append(", <a href=\"/eZoo/editAnimal?animalid="+ animals.get(x).getAnimalID() +"\">" + animals.get(x).getName() + "</a>");
+			}
+		}else {
+			sb.append("No Animals Applied");
+		}
+		String result = sb.toString();
+		return result;
 	}
 	/*
 	 * Overrides

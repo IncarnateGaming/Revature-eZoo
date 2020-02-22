@@ -28,6 +28,12 @@ public interface FeedingScheduleDAO {
 	 */
 	void deleteFeedingSchedule(FeedingSchedule fs) throws Exception;
 	/**
+	 * Overloaded function that uses the id to delete
+	 * @param scheduleId
+	 * @throws Exception
+	 */
+	void deleteFeedingSchedule(Integer scheduleId) throws Exception;
+	/**
 	 * Return a list of all feeding schedules
 	 * @return
 	 */
@@ -50,9 +56,15 @@ public interface FeedingScheduleDAO {
 	 * @param fs
 	 */
 	void assignFeedingSchedule(Animal animal, FeedingSchedule fs) throws Exception;
+	void assignFeedingSchedule(Long animalId, Integer feedingScheduleId) throws Exception;
 	/**
 	 * Remove a feeding schedule from an animal, include a message to remind them to assign a new feeding schedule lest the animal not be fed
 	 * @param animal
 	 */
 	void removeFeedingSchedule(Animal animal) throws Exception;
+	/**
+	 * Get the max value of the schedule_ID column
+	 * @return
+	 */
+	Integer getHighestId();
 }

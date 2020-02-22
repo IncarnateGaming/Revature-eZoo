@@ -1,5 +1,5 @@
 	<!-- Header -->
-	<jsp:include page="header.jsp" />
+	<jsp:include page="../../header.jsp" />
 	
 	<!-- JSTL includes -->
 	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -28,7 +28,7 @@
 		  <div class="form-group">
 		    <label for="id" class="col-sm-4 control-label">ID</label>
 		    <div class="col-sm-4">
-		      <input type="number" class="form-control" id="id" name="id" placeholder="ID" required="required"/>
+		      <input type="number" class="form-control" id="id" name="id" placeholder="ID" required="required" value="${newId}"/>
 		    </div>
 		  </div>
 		  <div class="form-group">
@@ -139,6 +139,16 @@
 		    </div>
 		  </div>
 		  <div class="form-group">
+		    <label for="feedingSchedule" class="col-sm-4 control-label">Feeding Schedule</label>
+		    <div class="col-sm-4">
+				<select id="feedingSchedule" required="required" name="feedingSchedule" class="form-control">
+				<c:forEach var="feedingSchedule" items="${feedingSchedules}">
+					<option value="${feedingSchedule.scheduleID}">${feedingSchedule.feedingTime}, ${feedingSchedule.recurrence}, ${feedingSchedule.food}</option>
+				</c:forEach>
+				</select>
+			 </div>
+		  </div>
+		  <div class="form-group">
 		    <div class="col-sm-offset-4 col-sm-1">
 		      <button type="submit" class="btn btn-primary">Add</button>
 		    </div>
@@ -149,4 +159,4 @@
 
 
 	<!-- Footer -->
-	<jsp:include page="footer.jsp" />
+	<jsp:include page="../../footer.jsp" />

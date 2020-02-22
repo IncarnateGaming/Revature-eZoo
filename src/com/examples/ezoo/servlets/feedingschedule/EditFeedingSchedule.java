@@ -1,4 +1,4 @@
-package com.examples.ezoo.servlets;
+package com.examples.ezoo.servlets.feedingschedule;
 
 import java.io.IOException;
 import java.util.Map;
@@ -24,7 +24,6 @@ public class EditFeedingSchedule extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		request.getRequestDispatcher("addAnimal.jsp").forward(request, response);
 
 		//Get Feeding Schedule ID
 		Map<String, String[]> params = request.getParameterMap();
@@ -36,7 +35,7 @@ public class EditFeedingSchedule extends HttpServlet {
 		FeedingSchedule fs = dao.getFeedingSchedule(targetFeedingScheduleId);
 		request.getSession().setAttribute("feedingSchedule", fs);
 
-		request.getRequestDispatcher("editFeedingSchedule.jsp").forward(request, response);
+		request.getRequestDispatcher("sections/feedingSchedules/editFeedingSchedule.jsp").forward(request, response);
 	}
 
 	@Override
@@ -73,7 +72,7 @@ public class EditFeedingSchedule extends HttpServlet {
 			request.getSession().setAttribute("message", "There was a problem editing the feeding schedule at this time");
 			request.getSession().setAttribute("messageClass", "alert-danger");
 			
-			request.getRequestDispatcher("editFeedingSchedule.jsp").forward(request, response);
+			request.getRequestDispatcher("sections/feedingSchedules/editFeedingSchedule.jsp").forward(request, response);
 
 		}
 	}
